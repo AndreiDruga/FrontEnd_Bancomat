@@ -1,0 +1,10 @@
+.bancomat-buttons-container {
+    display: flex;
+    height: 100vh;
+}
+
+.bancomat-buttons-rows {
+    align-self: center;
+    flex: 1;
+}
+
