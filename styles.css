@@ -8,3 +8,14 @@
     flex: 1;
 }
 
+.myclass {
+    height: 40px;
+    position: center;
+    border: 2px solid #0e0101;
+    border-color: rgba(0, 0, 0, .14);
+    background-color: rgb(255, 255, 255);
+    font-size: 30px;
+    text-align:left;
+    
+    font-family:'Times New Roman', Times, serif
+}
