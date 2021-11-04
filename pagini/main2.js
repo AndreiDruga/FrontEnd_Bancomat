@@ -24,7 +24,8 @@ function init() {
   }
 }
 
-// log in card user
+// log in card user//
+
 function login() {
   var cardNumber = document.getElementById("exampleInputCardNumber").value;
   var pin = document.getElementById("exempleInputPin").value;
@@ -82,6 +83,10 @@ function updateCardsInMemory(updatedCardsArray) {
   window.localStorage.setItem("cards", JSON.stringify(updatedCardsArray));
 }
 
+function updateCurentCardsInMemory(updatedCardsArray) {
+  window.localStorage.setItem("curentCard", JSON.stringify(updatedCardsArray));
+}
+
 
 function curentCard(cardNumber,pin,sold){
   var card={
@@ -93,7 +98,7 @@ function curentCard(cardNumber,pin,sold){
 }
 
 function exit(){
-  localStorage.clear();
+  window.localStorage.removeItem("curentCard");
 }
 
 function changePin(){
@@ -107,14 +112,13 @@ function seeSold(){
 }
 
 function incrementSold(){
- const curentCard=JSON.parse(window.localStorage.getItem("curentCard"));
- const existingCards = getCardsFromMemory();
- objIndex = existingCards.findIndex((obj => obj.sold == curentCard.sold));
- soldNou = parseInt(curentCard.sold)    +
- parseInt(document.getElementById("newSold").value);
- console.log(soldNou);
- console.log(curentCard.sold);
- existingCards[objIndex].sold = soldNou;
+  const curentCard=JSON.parse(window.localStorage.getItem("curentCard"));
+  const existingCards = getCardsFromMemory();
+  soldIndex = existingCards.findIndex((obj => obj.sold == curentCard.sold));
+ soldNou = parseInt(curentCard.sold) + parseInt(document.getElementById("newSold").value);
+ existingCards[soldIndex].sold = soldNou;
+ curentCard.sold=soldNou;
+ updateCurentCardsInMemory(curentCard);
  updateCardsInMemory(existingCards);
 }
 
