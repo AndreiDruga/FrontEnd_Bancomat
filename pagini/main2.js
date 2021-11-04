@@ -1,25 +1,21 @@
-
-var objPeople = [
-  {
-    cardNumber: "1234",
-    pin: "12345678",
-    sold:"123",
-  },
-  {
-    cardNumber: "123456",
-    pin: "123456789",
-    sold:"1230",
-  },
-  {
-    cardNumber: "chris",
-    pin: "password3",
-    sold:"123",
-  },
-];
-
 function init() {
-  
-  
+  var objPeople = [
+    {
+      cardNumber: "1234",
+      pin: "12345678",
+      sold:"123",
+    },
+    {
+      cardNumber: "123456",
+      pin: "123456789",
+      sold:"1230",
+    },
+    {
+      cardNumber: "chris",
+      pin: "password3",
+      sold:"123",
+    },
+  ];
   if (
     window.localStorage.getItem("cards") === undefined ||
     window.localStorage.getItem("cards") === null
@@ -36,16 +32,16 @@ function login() {
   const existingCard = existingCards.find(
     (element) => element.cardNumber === cardNumber && element.pin === pin 
     );
-  const index =  existingCards.findIndex(
-  (element) => element.cardNumber === cardNumber && element.pin === pin 
-  );
-  var sold=objPeople[index].sold;
   if (existingCard === undefined) {
     alert("incorrect card number or pin");
   } else {
+    const index =  existingCards.findIndex(
+    (element) => element.cardNumber === cardNumber && element.pin === pin 
+    );
+    var sold=existingCards[index].sold;
     curentCard(cardNumber,pin,sold);
     window.location = "./menuPage.html";
-     alert("Login was successful");
+    alert("Login was successful");
   }
 }
 
@@ -54,22 +50,38 @@ function registerUser() {
   var newCardNumber = {
     cardNumber: document.getElementById("newCardNumber").value,
     pin: document.getElementById("newPin").value,
+    sold:0
   };
   const existingCards = getCardsFromMemory();
   const existingCard = existingCards.find(
-    (element) => element.cardNumber === newCardNumber.cardNumber
+  (element) => element.cardNumber === newCardNumber.cardNumber
   );
-
   if (existingCard !== undefined) {
-	alert("That card number is alreat in user, please choose another");
+	alert("That card number is already in use, please choose another");
   } else if (newPin.length < 8) {
 	alert("That is to short, include 8 or more characters");
   }
+  curentCard(newCardNumber.cardNumber,newCardNumber.pin,newCardNumber.sold)
   alert("Register sucesfful");
   window.location = "./menuPage.html";
   existingCards.push(newCardNumber);
   updateCardsInMemory(existingCards);
+  const index =  existingCards.findIndex(
+    (element) => element.cardNumber === cardNumber && element.pin === pin 
+    );
+    var sold=existingCards[index].sold;
 }
+
+
+
+function getCardsFromMemory() {
+  return JSON.parse(window.localStorage.getItem("cards"));
+}
+
+function updateCardsInMemory(updatedCardsArray) {
+  window.localStorage.setItem("cards", JSON.stringify(updatedCardsArray));
+}
+
 
 function curentCard(cardNumber,pin,sold){
   var card={
@@ -78,14 +90,6 @@ function curentCard(cardNumber,pin,sold){
     sold:sold,
   }
   window.localStorage.setItem("curentCard", JSON.stringify(card));
-}
-
-function getCardsFromMemory() {
-  return JSON.parse(window.localStorage.getItem("cards"));
-}
-
-function updateCardsInMemory(updatedCardsArray) {
-  window.localStorage.setItem("cards", JSON.stringify(updatedCardsArray));
 }
 
 function exit(){
@@ -104,9 +108,14 @@ function seeSold(){
 
 function incrementSold(){
  const curentCard=JSON.parse(window.localStorage.getItem("curentCard"));
- curentCard.sold=parseInt(curentCard.sold)    +
+ const existingCards = getCardsFromMemory();
+ objIndex = existingCards.findIndex((obj => obj.sold == curentCard.sold));
+ soldNou = parseInt(curentCard.sold)    +
  parseInt(document.getElementById("newSold").value);
-  console.log(curentCard.sold);
- updateCardsInMemory(curentCard);
+ console.log(soldNou);
+ console.log(curentCard.sold);
+ existingCards[objIndex].sold = soldNou;
+ updateCardsInMemory(existingCards);
 }
+
 
