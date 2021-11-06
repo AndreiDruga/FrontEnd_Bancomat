@@ -106,10 +106,17 @@ function decrementSold(){
   const curentCard=JSON.parse(window.localStorage.getItem("curentCard"));
   const existingCards = getCardsFromMemory();
   soldIndex = existingCards.findIndex((obj => obj.sold == curentCard.sold));
+  if(curentCard.sold>=document.getElementById("newSold").value){
   soldNou = parseInt(curentCard.sold) - parseInt(document.getElementById("newSold").value);
   existingCards[soldIndex].sold = soldNou;
   curentCard.sold=soldNou;
   updateCurentCardsInMemory(curentCard);
-  updateCardsInMemory(existingCards);
- }
+  updateCardsInMemory(existingCards);}
+  else{
+    alert("soldul indisponibil")
+  }
+}
 
+function logOut(){
+  
+}
